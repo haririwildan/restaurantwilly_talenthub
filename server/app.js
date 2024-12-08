@@ -32,8 +32,12 @@ mongoose.connect(process.env.MONGO_URI)
     .catch((err) => console.log(err));
 
 // routes
+app.get('/', (req, res) => {
+    res.redirect('/menu');
+})
+
 app.use('/menu', menuRoutes);
 
-// Local
+// local
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => console.log(`Server running at http://localhost:${PORT}`));
