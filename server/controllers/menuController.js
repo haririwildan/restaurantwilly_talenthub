@@ -4,7 +4,7 @@ const Menu = require('../models/Menu');
 const getMenus = async (req, res) => {
     try {
         const menus = await Menu.find().sort({ createdAt: -1 });
-        res.render('menu/list', { title: 'Our Menu', menus });
+        res.render('menu/list', { title: 'Menu', menus });
     } catch(err) {
         res.status(500).send('Server Error');
     }
@@ -17,7 +17,7 @@ const getMenuDetail = async (req, res) => {
         if (!menu) {
             return res.status(404).send('Menu not found');
         }
-        res.render('menu/detail', { title: 'Detail Menu', menu });
+        res.render('menu/detail', { title: 'Detail', menu });
     } catch(err) {
         res.status(500).send('Server Error');
     }
