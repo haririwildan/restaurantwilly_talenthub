@@ -1,9 +1,21 @@
 const Menu = require('../models/Menu');
 
+// function truncate text
+const truncateText = (text, maxLength) => {
+    if (text.length <= maxLength) {
+        return text;
+    }
+    return text.substring(0, maxLength) + '...';
+}
+
 // get all menus
 const getMenus = async (req, res) => {
     try {
-        const menus = await Menu.find().sort({ createdAt: -1 });
+        let menus = await Menu.find().sort({ createdAt: -1 });
+        menus = menus.map(menu => ({
+            ...menu.toObject(),
+            description: truncateText(menu.description, 43)
+        }))
         res.render('menu/list', { title: 'Menu', menus });
     } catch(err) {
         res.status(500).send('Server Error');
