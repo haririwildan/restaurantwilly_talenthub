@@ -11,6 +11,9 @@ module.exports = {
         secondary: '#899489',
       }
     },
+    fontFamily: {
+      body: ['Poppins']
+    }
   },
   plugins: [],
 }
