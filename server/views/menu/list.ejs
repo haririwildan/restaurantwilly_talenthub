@@ -1,12 +1,12 @@
-<h2 class="text-xl font-bold my-5 mx-auto w-full max-w-screen-xl pl-4 xl:pl-0">Our Menu</h2>
+<h2 class="text-xl text-primary font-semibold my-5 mx-auto w-full max-w-screen-xl pl-4 xl:pl-0">Our Menu</h2>
 <div class="grid grid-cols-2 md:grid-cols-4 xl:grid-cols-6 gap-3 mx-auto w-full max-w-screen-xl">
     <% menus.forEach(menu => { %>
         <a href="/menu/<%= menu._id %>">
             <div class="border-2 border-transparent rounded-lg bg-white shadow hover:border-primary transition duration-300">
                 <img src="<%= menu.image %>" alt="<%= menu.name %>" class="w-full h-48 object-cover rounded-t-lg mb-2">
-                <h3 class="text-base mb-2 px-2"><%= menu.name %></h3>
-                <p class="text-sm text-gray-400 mb-2 px-2"><%= menu.description %></p>
-                <p class="text-lg font-bold text-gray-800 mb-3 px-2">Rp<%= menu.price %></p>
+                <h3 class="text-base text-secondary font-semibold mb-2 px-2"><%= menu.name %></h3>
+                <p class="text-sm text-secondary mb-2 px-2"><%= menu.description %></p>
+                <p class="text-lg text-primary font-bold mb-3 px-2">Rp<%= menu.price %></p>
             </div>
         </a>
     <% }) %>
