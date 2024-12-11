@@ -18,8 +18,21 @@
                 <h1 class="font-mono font-extrabold uppercase">
                     <a href="/" class="text-primary hover:text-secondary text-2xl">Willy Restaurant</a>
                 </h1>
+                <span id="latestOrderLink" class="ml-4 hidden">
+                    <a href="#" id="latestOrder" class="text-primary">View Latest Order</a>
+                </span>
             </div>
         </nav>
+
+        <!-- content latest order -->
+        <div id="latestOrderDetails" class="mt-6 hidden">
+            <h2 class="text-xl font-semibold">Latest Order Details</h2>
+            <p id="latestOrderId"></p>
+            <p id="latestOrderMenuName"></p>
+            <p id="latestOrderMenuPrice"></p>
+            <p id="latestOrderQuantity"></p>
+            <p id="latestOrderStatus"></p>
+        </div>
 
         <main>
             <%- body %>
@@ -92,6 +105,38 @@
         </footer>
 
     </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', async function() {
+            const lastOrderId = localStorage.getItem('lastOrderId');
+            if (lastOrderId) {
+                const latestOrderLink = document.getElementById('latestOrderLink');
+                const latestOrder = document.getElementById('latestOrder');
+                const latestOrderDetails = document.getElementById('latestOrderDetails');
+                latestOrderLink.classList.remove('hidden');
+                
+                // event listener for click on "view latest order" link
+                latestOrder.addEventListener('click', async function(event) {
+                    event.preventDefault();
+                    
+                    // toggle class hidden to show or hide order details
+                    latestOrderDetails.classList.toggle('hidden');
+    
+                    if (!latestOrderDetails.classList.contains('hidden')) {
+                        const response = await fetch(`/order/${lastOrderId}`);
+                        const order = await response.json();
+    
+                        // show order details
+                        document.getElementById('latestOrderId').innerText = `Order ID: ${order._id}`;
+                        document.getElementById('latestOrderMenuName').innerText = `Menu Name: ${order.menuDetails.name}`;
+                        document.getElementById('latestOrderMenuPrice').innerText = `Price: Rp${order.menuDetails.price}`;
+                        document.getElementById('latestOrderQuantity').innerText = `Quantity: ${order.quantity}`;
+                        document.getElementById('latestOrderStatus').innerText = `Status: ${order.status}`;
+                    }
+                });
+            }
+        });
+        </script>
 </body>
 
 </html>
