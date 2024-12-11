@@ -14,7 +14,7 @@ const getMenus = async (req, res) => {
         let menus = await Menu.find().sort({ createdAt: -1 });
         menus = menus.map(menu => ({
             ...menu.toObject(),
-            description: truncateText(menu.description, 43)
+            description: truncateText(menu.description, 40)
         }))
         res.render('menu/list', { title: 'Menu', menus });
     } catch(err) {
