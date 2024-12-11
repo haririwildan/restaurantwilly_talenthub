@@ -5,7 +5,12 @@ const morgan = require('morgan');
 const mongoose = require('mongoose');
 const path = require('path');
 const expressLayouts = require('express-ejs-layouts');
+
+// menu
 const menuRoutes = require('./routes/menuRoutes');
+
+// order
+const orderRoutes = require('./routes/orderRoutes');
 
 // express
 const app = express();
@@ -37,6 +42,8 @@ app.get('/', (req, res) => {
 })
 
 app.use('/menu', menuRoutes);
+
+app.use('/order', orderRoutes);
 
 // local
 const PORT = process.env.PORT || 3000;
