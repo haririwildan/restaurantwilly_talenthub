@@ -8,7 +8,8 @@ const orderSchema = new mongoose.Schema({
     },
     quantity: {
         type: Number,
-        required: true
+        required: true,
+        min: 1
     },
     customerName: {
         type: String,
@@ -19,6 +20,18 @@ const orderSchema = new mongoose.Schema({
         default: 'Pending',
         required: true
     }
-}, { timestamps: true })
+}, { timestamps: true });
+
+// virtual definition for menuDetails
+orderSchema.virtual('menuDetails', {
+    ref: 'Menu',
+    localField: 'menuId',
+    foreignField: '_id',
+    justOne: true,
+})
+
+// include virtuals in json output and objects
+orderSchema.set('toJSON', { virtuals: true });
+orderSchema.set('toObject', { virtuals: true });
 
 module.exports = mongoose.model('Order', orderSchema);
