@@ -1,18 +1,92 @@
-<h1><%= menu.name %></h1>
-<p><%= menu.description %></p>
-<p>Price: $<%= menu.price %></p>
-<img src="<%= menu.image %>" alt="<%= menu.name %>" class="w-1/2 mx-auto">
+<div class="container mx-auto py-5">
+    <h1><%= menu.name %></h1>
+    <p><%= menu.description %></p>
+    <p>Price: Rp<%= menu.price %></p>
+    <img src="<%= menu.image %>" alt="<%= menu.name %>" class="w-1/2 mx-auto">
 
-<h2>Order this Menu</h2>
-<form action="/order" method="POST" class="mt-4">
-    <input type="hidden" name="menuId" value="<%= menu._id %>">
-    <div class="mb-4">
-        <label for="customerName" class="block mb-2">Your Name</label>
-        <input type="text" id="customerName" name="customerName" class="border p-2 w-full" required>
+    <h2>Order this Menu</h2>
+    <form id="orderForm" class="mt-4">
+        <input type="hidden" name="menuId" value="<%= menu._id %>">
+        <div class="mb-4">
+            <label for="customerName" class="block mb-2">Your Name</label>
+            <input type="text" id="customerName" name="customerName" class="border p-2 w-full" required>
+        </div>
+        <div class="mb-4">
+            <label for="quantity" class="block mb-2">Quantity</label>
+            <input type="number" id="quantity" name="quantity" class="border p-2 w-full" required>
+        </div>
+        <button type="submit" class="bg-primary text-white px-4 py-2 rounded">Order Now</button>
+    </form>
+</div>
+
+<!-- modal -->
+<div id="orderModal" class="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 hidden">
+    <div class="bg-white rounded-lg p-6 w-1/3">
+        <div class="flex justify-between items-center pb-3">
+            <p id="modalMessage" class="text-lg font-bold"></p>
+        </div>
+        <div id="orderDetails" class="hidden">
+            <h3 class="text-lg font-semibold mt-3">Order Details</h3>
+            <p id="orderId" class="mt-2"></p>
+            <p id="orderMenuName" class="mt-1"></p>
+            <p id="orderMenuDescription" class="mt-1"></p>
+            <p id="orderMenuPrice" class="mt-1"></p>
+            <p id="orderQuantity" class="mt-1"></p>
+            <p id="orderStatus" class="mt-1"></p>
+        </div>
+        <button id="okButton" class="mt-4 bg-primary text-white px-4 py-2 rounded">OK</button>
     </div>
-    <div class="mb-4">
-        <label for="quantity" class="block mb-2">Quantity</label>
-        <input type="number" id="quantity" name="quantity" class="border p-2 w-full" required>
-    </div>
-    <button type="submit" class="bg-blue-500 text-white px-4 py-2 rounded">Order Now</button>
-</form>
+</div>
+
+<script>
+    document.getElementById('orderForm').addEventListener('submit', async function(event) {
+        event.preventDefault();
+
+        const formData = new FormData(this);
+        const orderData = {
+            menuId: formData.get('menuId'),
+            quantity: formData.get('quantity'),
+            customerName: formData.get('customerName')
+        };
+
+        try {
+            const response = await fetch('/order', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(orderData)
+            });
+
+            const result = await response.json();
+
+            if (response.ok) {
+                document.getElementById('modalMessage').innerText = 'Order created successfully!';
+                document.getElementById('orderDetails').classList.remove('hidden');
+                document.getElementById('orderId').innerText = `Order ID: ${result.order._id}`;
+                document.getElementById('orderMenuName').innerText = `Menu Name: ${result.order.menuDetails.name}`;
+                document.getElementById('orderMenuPrice').innerText = `Price: Rp${result.order.menuDetails.price}`;
+                document.getElementById('orderQuantity').innerText = `Quantity: ${result.order.quantity}`;
+                document.getElementById('orderStatus').innerText = `Status: ${result.order.status}`;
+
+                // save the order id to use on the main page
+                localStorage.setItem('lastOrderId', result.order._id);
+            } else {
+                document.getElementById('modalMessage').innerText = `Failed to create order: ${result.error || 'Unknown error'}`;
+                document.getElementById('orderDetails').classList.add('hidden');
+            }
+
+            document.getElementById('orderModal').classList.remove('hidden');
+        } catch (error) {
+            console.error('Error in frontend:', error); // error log in frontend
+            document.getElementById('modalMessage').innerText = 'An error occurred. Please try again.';
+            document.getElementById('orderDetails').classList.add('hidden');
+            document.getElementById('orderModal').classList.remove('hidden');
+        }
+    });
+
+    // event listener for ok button
+    document.getElementById('okButton').addEventListener('click', function() {
+        window.location.href = '/';
+    });
+</script>
