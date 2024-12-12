@@ -13,19 +13,19 @@
 <body class="bg-gray-100 font-body">
     <div>
 
-        <nav class="p-4 py-6 md:py-8 flex justify-between bg-gray-100 border-b border-gray-300 sticky top-0">
+        <nav class="p-4 py-6 md:py-8 flex justify-between bg-white border-b border-gray-300 sticky top-0">
             <div class="ml-0 xl:ml-4">
                 <h1 class="font-mono font-extrabold uppercase">
-                    <a href="/" class="text-primary hover:text-secondary text-2xl">Willy Restaurant</a>
+                    <a href="/" class="text-primary hover:text-secondary transition duration-300 text-lg xl:text-2xl">Willy Restaurant</a>
                 </h1>
             </div>
             <div id="latestOrderLink" class="mr-0 xl:mr-4 hidden">
-                <a href="#" id="latestOrder" class="text-primary hover:text-secondary">View Latest Order</a>
+                <a href="#" id="latestOrder" class="text-xs xl:text-base text-primary hover:text-secondary transition duration-300">View Latest Order</a>
             </div>
         </nav>
 
         <!-- content latest order -->
-        <div id="latestOrderDetails" class="mt-5 p-4 border-2 border-primary rounded-xl max-w-sm ml-auto mr-4 xl:mr-8 hidden">
+        <div id="latestOrderDetails" class="bg-white my-5 p-4 border-2 border-primary rounded-xl w-fit ml-auto mr-1 xl:mr-8 hidden">
             <h2 class="text-xl text-primary font-semibold mb-3">Latest Order Details</h2>
             <p id="latestOrderId" class="text-secondary"></p>
             <p id="latestOrderMenuName" class="text-secondary"></p>
@@ -38,7 +38,7 @@
             <%- body %>
         </main>
 
-        <footer class="dark:bg-gray-900 mt-5 p-4 py-6 md:py-8">
+        <footer class="dark:bg-gray-900 p-4 py-6 md:py-8">
             <div class="mx-auto w-full max-w-screen-xl">
                 <div class="md:flex md:justify-between">
                     <div class="mb-6 md:mb-0">
