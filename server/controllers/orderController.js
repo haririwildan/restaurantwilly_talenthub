@@ -29,7 +29,19 @@ const getOrderDetails = async (req, res) => {
     }
 }
 
+// to take all orders
+const getAllOrders = async (req, res) => {
+    try {
+        const orders = await Order.find().populate('menuDetails').sort({ createdAt: -1 });
+        res.render('order/orderList', { title: 'Order Detail', orders });
+    } catch (err) {
+        console.error('Error in getAllOrders:', err);
+        res.status(500).send('Server Error');
+    }
+}
+
 module.exports = {
     addOrder,
     getOrderDetails,
+    getAllOrders,
 }
