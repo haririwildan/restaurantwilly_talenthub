@@ -1,4 +1,4 @@
-<div class="container mx-auto py-5">
+<div class="my-5 xl:mx-auto w-full max-w-screen-xl">
     <h1 class="text-2xl font-bold mb-4">Order List</h1>
     <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
         <% orders.forEach(order => { %>
@@ -8,9 +8,9 @@
             <p><span>Customer Name:</span> <%= order.customerName %></p>
             <p><span>Menu Name:</span> <%= order.menuDetails.name %></p>
             <p><span>Description:</span> <%= order.menuDetails.description %></p>
-            <p><span>Price:</span> Rp<%= order.menuDetails.price %></p>
+            <p><span>Price:</span> Rp<%= (order.menuDetails.price).toLocaleString('id-ID') %></p>
             <p><span>Quantity:</span> <%= order.quantity %></p>
-            <p><strong>Total Price:</strong> Rp<%= (parseInt(order.menuDetails.price.replace(/\./g, '')) * order.quantity).toLocaleString('id-ID') %></p>
+            <p><strong>Total Price:</strong> Rp<%= ((order.menuDetails.price) * order.quantity).toLocaleString('id-ID') %></p>
             <p><span>Status:</span> <%= order.status %></p>
             <img src="<%= order.menuDetails.image %>" alt="<%= order.menuDetails.name %>" class="w-full h-64 object-cover rounded mt-2">
         </div>
