@@ -684,16 +684,8 @@ video {
   margin-left: 0px;
 }
 
-.ml-auto{
-  margin-left: auto;
-}
-
 .mr-0{
   margin-right: 0px;
-}
-
-.mr-1{
-  margin-right: 0.25rem;
 }
 
 .ms-5{
@@ -740,6 +732,10 @@ video {
   height: 12rem;
 }
 
+.h-64{
+  height: 16rem;
+}
+
 .h-fit{
   height: -moz-fit-content;
   height: fit-content;
@@ -747,10 +743,6 @@ video {
 
 .h-screen{
   height: 100vh;
-}
-
-.h-64{
-  height: 16rem;
 }
 
 .w-1\/3{
@@ -774,12 +766,12 @@ video {
   max-width: 1280px;
 }
 
-.grid-cols-2{
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-}
-
 .grid-cols-1{
   grid-template-columns: repeat(1, minmax(0, 1fr));
+}
+
+.grid-cols-2{
+  grid-template-columns: repeat(2, minmax(0, 1fr));
 }
 
 .flex-col{
@@ -882,6 +874,16 @@ video {
   background-color: rgb(255 255 255 / var(--tw-bg-opacity, 1));
 }
 
+.bg-red-800{
+  --tw-bg-opacity: 1;
+  background-color: rgb(153 27 27 / var(--tw-bg-opacity, 1));
+}
+
+.bg-blue-800{
+  --tw-bg-opacity: 1;
+  background-color: rgb(30 64 175 / var(--tw-bg-opacity, 1));
+}
+
 .bg-opacity-50{
   --tw-bg-opacity: 0.5;
 }
@@ -922,14 +924,14 @@ video {
   padding-bottom: 0.5rem;
 }
 
-.py-6{
-  padding-top: 1.5rem;
-  padding-bottom: 1.5rem;
-}
-
 .py-5{
   padding-top: 1.25rem;
   padding-bottom: 1.25rem;
+}
+
+.py-6{
+  padding-top: 1.5rem;
+  padding-bottom: 1.5rem;
 }
 
 .pb-3{
@@ -1008,11 +1010,6 @@ video {
 .text-white{
   --tw-text-opacity: 1;
   color: rgb(255 255 255 / var(--tw-text-opacity, 1));
-}
-
-.text-blue-500{
-  --tw-text-opacity: 1;
-  color: rgb(59 130 246 / var(--tw-text-opacity, 1));
 }
 
 .shadow{
@@ -1103,12 +1100,12 @@ video {
     display: flex;
   }
 
-  .md\:grid-cols-4{
-    grid-template-columns: repeat(4, minmax(0, 1fr));
-  }
-
   .md\:grid-cols-2{
     grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .md\:grid-cols-4{
+    grid-template-columns: repeat(4, minmax(0, 1fr));
   }
 
   .md\:justify-between{
@@ -1180,6 +1177,14 @@ video {
 
   .xl\:mr-8{
     margin-right: 2rem;
+  }
+
+  .xl\:ml-auto{
+    margin-left: auto;
+  }
+
+  .xl\:mr-auto{
+    margin-right: auto;
   }
 
   .xl\:grid-cols-3{
