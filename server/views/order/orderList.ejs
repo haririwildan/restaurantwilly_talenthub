@@ -1,18 +1,27 @@
 <div class="my-5 xl:mx-auto w-full max-w-screen-xl">
-    <h1 class="text-2xl font-bold mb-4">Order List</h1>
-    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+    <h1 class="text-2xl text-primary font-semibold mb-4">Order List</h1>
+    <div class="grid xl:grid-cols-2 w-fit gap-3">
         <% orders.forEach(order => { %>
-        <div class="bg-white p-4 rounded shadow-md">
-            <p class="font-semibold mb-2">Order ID: <%= order._id %></p>
-            <p><span>Created At:</span> <%= new Date(order.createdAt).toLocaleDateString('id-ID', { day: '2-digit', month: 'long', year: 'numeric' }) %>, <%= new Date(order.createdAt).toLocaleTimeString('id-ID', { hour: '2-digit', minute: '2-digit' }) %> WIB</p>
-            <p><span>Customer Name:</span> <%= order.customerName %></p>
-            <p><span>Menu Name:</span> <%= order.menuDetails.name %></p>
-            <p><span>Description:</span> <%= order.menuDetails.description %></p>
-            <p><span>Price:</span> Rp<%= (order.menuDetails.price).toLocaleString('id-ID') %></p>
-            <p><span>Quantity:</span> <%= order.quantity %></p>
-            <p><strong>Total Price:</strong> Rp<%= ((order.menuDetails.price) * order.quantity).toLocaleString('id-ID') %></p>
-            <p><span>Status:</span> <%= order.status %></p>
-            <img src="<%= order.menuDetails.image %>" alt="<%= order.menuDetails.name %>" class="w-full h-64 object-cover rounded mt-2">
+        <div class="grid grid-cols-2 gap-4 bg-white p-4 rounded-xl shadow-md">
+            <div class="">
+                <img src="<%= order.menuDetails.image %>" alt="<%= order.menuDetails.name %>" class="w-80 h-48 object-cover rounded-xl shadow-md">
+            </div>
+
+            <div class="">
+                <div class="flex flex-row justify-between items-center mb-16">
+                    <div>
+                        <p class="text-lg font-semibold"><%= order.menuDetails.name %></p>
+                        <p class="text-sm text-secondary"><%= new Date(order.createdAt).toLocaleDateString('id-ID', { day: '2-digit', month: 'long', year: 'numeric' }) %>, <%= new Date(order.createdAt).toLocaleTimeString('id-ID', { hour: '2-digit', minute: '2-digit' }) %> WIB</p>
+                    </div>
+                    <p class="text-secondary text-sm border border-secondary p-1 rounded-lg w-fit"><%= order.status %></p>
+                </div>
+
+                <div class="flex flex-col items-end">
+                    <p class="text-sm text-secondary font-semibold">Quantity: <%= order.quantity %></p>
+                    <p class="text-sm font-semibold">Total Price: Rp<%= ((order.menuDetails.price) * order.quantity).toLocaleString('id-ID') %></p>
+                    <button class="text-primary hover:text-secondary transition duration-300 my-2">View detail</button>
+                </div>
+            </div>
         </div>
         <% }); %>
     </div>
