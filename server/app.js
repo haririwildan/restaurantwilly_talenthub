@@ -49,8 +49,6 @@ app.use('/menu', menuRoutes);
 
 app.use('/order', orderRoutes);
 
-console.log(`Mongo URI: ${process.env.MONGO_URI}`);
-
 // local
 app.listen(PORT, () => console.log(`Server running at http://localhost:${PORT}`));
 
