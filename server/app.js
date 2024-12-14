@@ -34,7 +34,10 @@ app.use(express.static(path.join(__dirname, 'public')));
 // mongodb
 mongoose.connect(process.env.MONGO_URI)
     .then(() => console.log('MongoDB Connected'))
-    .catch((err) => console.log(err));
+    .catch((err) => {
+        console.error(`Error connecting to MongoDB: ${err.message}`);
+        process.exit(1);
+    });
 
 // routes
 app.get('/', (req, res) => {
