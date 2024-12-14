@@ -665,6 +665,11 @@ video {
   margin-bottom: 1.5rem;
 }
 
+.my-auto{
+  margin-top: auto;
+  margin-bottom: auto;
+}
+
 .mb-16{
   margin-bottom: 4rem;
 }
@@ -785,6 +790,10 @@ video {
 
 .w-32{
   width: 8rem;
+}
+
+.w-48{
+  width: 12rem;
 }
 
 .max-w-screen-xl{
