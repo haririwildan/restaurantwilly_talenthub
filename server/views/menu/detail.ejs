@@ -37,8 +37,8 @@
                 <h3 class="text-lg font-semibold">Order Details</h3>
                 <p id="orderId" class="mt-2 text-sm"></p>
                 <p id="orderMenuName" class="mt-1 text-sm"></p>
-                <p id="orderMenuPrice" class="mt-1 text-sm"></p>
                 <p id="orderQuantity" class="mt-1 text-sm"></p>
+                <p id="orderMenuPrice" class="mt-1 text-sm"></p>
                 <p id="orderStatus" class="mt-1 text-sm"></p>
             </div>
             <button id="okButton" class="mt-4 ml-auto bg-primary hover:bg-secondary transition duration-300 text-white px-4 py-2 rounded-lg">OK</button>
@@ -73,8 +73,8 @@
             document.getElementById('orderDetails').classList.remove('hidden');
             document.getElementById('orderId').innerText = `Order ID: ${result.order._id}`;
             document.getElementById('orderMenuName').innerText = `Menu Name: ${result.order.menuDetails.name}`;
-            document.getElementById('orderMenuPrice').innerText = `Total Price: Rp${(result.order.menuDetails.price * result.order.quantity).toLocaleString('id-ID')}`;
             document.getElementById('orderQuantity').innerText = `Quantity: ${result.order.quantity}`;
+            document.getElementById('orderMenuPrice').innerText = `Total Price: Rp${(result.order.menuDetails.price * result.order.quantity).toLocaleString('id-ID')}`;
             document.getElementById('orderStatus').innerText = `Status: ${result.order.status}`;
 
             // save the order id to use on the main page

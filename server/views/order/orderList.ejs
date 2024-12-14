@@ -8,7 +8,7 @@
             </div>
 
             <div class="">
-                <div class="flex flex-row justify-between items-start gap-1 mb-4 xl:mb-16">
+                <div class="flex flex-row justify-between items-start gap-2 mb-4 xl:mb-16">
                     <div>
                         <p class="text-base xl:text-lg font-semibold"><%= order.menuDetails.name %></p>
                         <p class="text-xs xl:text-sm text-secondary"><%= new Date(order.createdAt).toLocaleDateString('id-ID', { day: '2-digit', month: 'long', year: 'numeric' }) %>, <%= new Date(order.createdAt).toLocaleTimeString('id-ID', { hour: '2-digit', minute: '2-digit' }) %> WIB</p> 
