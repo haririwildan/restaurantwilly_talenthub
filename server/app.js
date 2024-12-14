@@ -33,17 +33,8 @@ app.set('layout', 'layouts/main');
 app.use(express.static(path.join(__dirname, 'public')));
 
 // mongodb
-// mongoose.connect(process.env.MONGO_URI)
-//     .then(() => console.log('MongoDB Connected'))
-//     .catch((err) => {
-//         console.error(`Error connecting to MongoDB: ${err.message}`);
-//         process.exit(1);
-//     });
-
-mongoose.connect(process.env.MONG_URI)
-    .then(() => app.listen(PORT, () => {
-        console.log('connected to db and listening port', process.env.PORT);
-    })) // server aktif setelah koneksi sukses
+mongoose.connect(process.env.MONGO_URI)
+    .then(() => console.log('MongoDB Connected'))
     .catch((err) => {
         console.error(`Error connecting to MongoDB: ${err.message}`);
         process.exit(1);
@@ -58,8 +49,10 @@ app.use('/menu', menuRoutes);
 
 app.use('/order', orderRoutes);
 
+console.log(`Mongo URI: ${process.env.MONGO_URI}`);
+
 // local
-// app.listen(PORT, () => console.log(`Server running at http://localhost:${PORT}`));
+app.listen(PORT, () => console.log(`Server running at http://localhost:${PORT}`));
 
 // vercel connect
 module.exports = app;
