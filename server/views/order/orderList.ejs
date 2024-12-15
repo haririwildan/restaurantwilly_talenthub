@@ -11,7 +11,16 @@
                 <div class="flex flex-row justify-between items-start gap-2 mb-4 xl:mb-16">
                     <div>
                         <p class="text-sm xl:text-lg font-semibold"><%= order.menuDetails.name %></p>
-                        <p class="text-xs xl:text-sm text-secondary"><%= new Date(order.createdAt).toLocaleDateString('id-ID', { day: '2-digit', month: 'long', year: 'numeric' }) %>, <%= new Date(order.createdAt).toLocaleTimeString('id-ID', { hour: '2-digit', minute: '2-digit' }) %> WIB</p> 
+                        <p class="text-xs xl:text-sm text-secondary">
+                            <%= new Intl.DateTimeFormat('id-ID', { 
+                                timeZone: 'Asia/Jakarta', 
+                                day: '2-digit', 
+                                month: 'long', 
+                                year: 'numeric', 
+                                hour: '2-digit', 
+                                minute: '2-digit' 
+                            }).format(new Date(order.createdAt)) %> WIB
+                        </p>
                     </div>
                     <p class="text-secondary text-xs xl:text-sm border border-secondary p-1 rounded-md xl:rounded-lg w-fit"><%= order.status %></p>
                 </div>
