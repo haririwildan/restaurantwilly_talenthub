@@ -1,21 +1,21 @@
 <div class="my-5 xl:mx-auto w-full max-w-screen-xl">
     <h1 class="text-lg xl:text-2xl text-primary font-semibold mb-4 pl-4 xl:pl-0">Order List</h1>
-    <div class="grid xl:grid-cols-2 w-fit gap-3 p-1 xl:p-0">
+    <div class="grid xl:grid-cols-2 w-full gap-3 px-1 xl:p-0">
         <% orders.forEach(order => { %>
         <div class="flex xl:grid xl:grid-cols-2 gap-3 xl:gap-4 bg-white p-2 xl:p-4 rounded-md xl:rounded-xl shadow-sm xl:shadow-md">
             <div class="">
-                <img src="<%= order.menuDetails.image %>" alt="<%= order.menuDetails.name %>" class="w-32 xl:w-80 h-32 xl:h-48 object-cover rounded-md xl:rounded-xl shadow-md">
+                <img src="<%= order.menuDetails.image %>" alt="<%= order.menuDetails.name %>" class="w-48 xl:w-80 h-32 xl:h-48 object-cover rounded-md xl:rounded-xl shadow-md">
             </div>
 
-            <div class="">
-                <div class="flex flex-row justify-between items-start gap-2 mb-4 xl:mb-16">
-                    <div>
+            <div class="w-full">
+                <div class="flex flex-row justify-between items-start gap-2 mb-8 xl:mb-16">
+                    <div class="">
                         <p class="text-sm xl:text-lg font-semibold"><%= order.menuDetails.name %></p>
                         <p class="text-xs xl:text-sm text-secondary">
                             <%= new Intl.DateTimeFormat('id-ID', { 
                                 timeZone: 'Asia/Jakarta', 
                                 day: '2-digit', 
-                                month: 'long', 
+                                month: 'short', 
                                 year: 'numeric', 
                                 hour: '2-digit', 
                                 minute: '2-digit' 
@@ -28,10 +28,122 @@
                 <div class="flex flex-col items-end">
                     <p class="text-xs xl:text-sm text-secondary font-medium xl:font-semibold">Quantity: <%= order.quantity %></p>
                     <p class="text-xs xl:text-sm font-semibold">Total Price: Rp<%= ((order.menuDetails.price) * order.quantity).toLocaleString('id-ID') %></p>
-                    <button class="text-xs xl:text-sm text-primary hover:text-secondary transition duration-300 mt-2">View detail</button>
+                    <button data-order-id="<%= order._id %>" class="text-xs xl:text-sm text-primary hover:text-secondary transition duration-300 mt-2 view-detail">View detail</button>
                 </div>
             </div>
         </div>
         <% }); %>
     </div>
 </div>
+
+<!-- modal -->
+<div id="orderDetailModal" class="fixed inset-0 bg-black bg-opacity-50 hidden z-50">
+    <div class="h-screen flex items-center justify-center">
+        <div id="modalContent" class="bg-gray-100 flex flex-col w-full h-full xl:w-3/6 xl:h-80 xl:rounded-lg xl:shadow-lg overflow-y-auto">
+            <nav class="bg-white p-4 flex justify-between border-b border-gray-300 sticky top-0">
+                <h2 class="text-lg xl:text-xl font-semibold">Order Details</h2>
+                <button id="closeModalButton" class="rounded px-2 py-0 hover:bg-secondary hover:opacity-50 transition duration-300">&times;</button>
+            </nav>
+            <div class="bg-white mb-2 p-4">
+                <p class="text-sm xl:text-base font-semibold mb-4">
+                    <span>Status</span> <span id="orderStatus">Pending</span>
+                </p>
+                <p class="flex items-center justify-between text-xs xl:text-sm">
+                    <span class="text-secondary">Order ID</span> <span id="orderId" class="text-primary font-semibold text-sm">675d801527df369412cfbce8</span>
+                </p>
+                <p class="flex items-center justify-between text-xs xl:text-sm my-2">
+                    <span class="text-secondary">Purchase Date</span> <span id="orderDateTime">14 Desember 2024, 19.54 WIB</span>
+                </p>
+                <p class="flex items-center justify-between text-xs xl:text-sm">
+                    <span class="text-secondary">Customer Name</span> <span id="orderCustomerName">Telo Gaming</span>
+                </p>
+            </div>
+            <div class="bg-white flex gap-3 p-4">
+                <img id="orderMenuImage" src="" alt="" class="w-24 h-24 xl:w-32 xl:h-32 object-cover rounded-md shadow-md">
+                <div class="flex flex-col">
+                    <p id="orderMenuName" class="text-base xl:text-lg font-semibold mb-3">Chicken Katsu</p>
+                    <p class="text-xs xl:text-sm text-secondary">
+                        <span id="orderQuantity">2</span> <span>x</span> <span id="orderPrice">Rp15.000</span>
+                    </p>
+                    <p class="text-xs xl:text-sm text-secondary">
+                        <span>Total Price:</span> <span id="orderTotalPrice">Rp30.000</span>
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    document.addEventListener('DOMContentLoaded', () => {
+        const modal = document.getElementById('orderDetailModal');
+        const closeModalButton = document.getElementById('closeModalButton');
+        const modalContent = document.getElementById('modalContent');
+        const body = document.body; // reference to the <body> element
+
+        // elements to populate in modal
+        const orderMenuName = document.getElementById('orderMenuName');
+        const orderMenuImage = document.getElementById('orderMenuImage');
+        const orderId = document.getElementById('orderId');
+        const orderDateTime = document.getElementById('orderDateTime');
+        const orderStatus = document.getElementById('orderStatus');
+        const orderCustomerName = document.getElementById('orderCustomerName');
+        const orderQuantity = document.getElementById('orderQuantity');
+        const orderPrice = document.getElementById('orderPrice');
+        const orderTotalPrice = document.getElementById('orderTotalPrice');
+
+        // handle "view detail" button click
+        document.querySelectorAll('.view-detail').forEach(button => {
+            button.addEventListener('click', async () => {
+                const orderIdValue = button.getAttribute('data-order-id');
+
+                try {
+                    const response = await fetch(`/order/${orderIdValue}`);
+                    const order = await response.json();
+
+                    // populate modal with order data
+                    orderMenuName.textContent = order.menuDetails.name;
+                    orderMenuImage.src = order.menuDetails.image;
+                    orderMenuImage.alt = order.menuDetails.name;
+                    orderId.textContent = order._id;
+                    orderDateTime.textContent = new Intl.DateTimeFormat('id-ID', {
+                        timeZone: 'Asia/Jakarta',
+                        day: '2-digit',
+                        month: 'long',
+                        year: 'numeric',
+                    }).format(new Date(order.createdAt)) + ', ' +
+                    new Intl.DateTimeFormat('id-ID', {
+                        timeZone: 'Asia/Jakarta',
+                        hour: '2-digit',
+                        minute: '2-digit',
+                    }).format(new Date(order.createdAt)) + ' WIB';
+                    orderStatus.textContent = order.status;
+                    orderCustomerName.textContent = order.customerName;
+                    orderQuantity.textContent = order.quantity;
+                    orderPrice.textContent = `Rp${(order.menuDetails.price).toLocaleString('id-ID')}`;
+                    orderTotalPrice.textContent = `Rp${(order.menuDetails.price * order.quantity).toLocaleString('id-ID')}`;
+
+                    // show modal
+                    modal.classList.remove('hidden');
+                    body.classList.add('overflow-hidden');
+                } catch (err) {
+                    console.error('Failed to fetch order details:', err);
+                }
+            });
+        });
+
+        // close modal
+        closeModalButton.addEventListener('click', () => {
+            modal.classList.add('hidden');
+            body.classList.remove('overflow-hidden'); // re-enable scrolling
+        });
+
+        // close modal when clicking outside
+        modal.addEventListener('click', (event) => {
+            if (event.target !== modalContent && !modalContent.contains(event.target)) {
+                modal.classList.add('hidden');
+                body.classList.remove('overflow-hidden'); // re-enable scrolling
+            }
+        });
+    });
+</script>
