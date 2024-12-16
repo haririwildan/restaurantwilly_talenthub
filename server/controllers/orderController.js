@@ -29,10 +29,25 @@ const getOrderDetails = async (req, res) => {
     }
 }
 
+// function truncate text
+const truncateText = (text, maxLength) => {
+    if (text.length <= maxLength) {
+        return text;
+    }
+    return text.substring(0, maxLength) + '...';
+}
+
 // to take all orders
 const getAllOrders = async (req, res) => {
     try {
-        const orders = await Order.find().populate('menuDetails').sort({ createdAt: -1 });
+        let orders = await Order.find().populate('menuDetails').sort({ createdAt: -1 });
+        orders = orders.map(order => ({
+            ...order.toObject(),
+            menuDetails: {
+                ...order.menuDetails.toObject(),
+                name: truncateText(order.menuDetails.name, 19)
+            }
+        }))
         res.render('order/orderList', { title: 'Order Detail', orders });
     } catch (err) {
         console.error('Error in getAllOrders:', err);
