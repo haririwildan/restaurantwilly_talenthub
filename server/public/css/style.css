@@ -762,14 +762,6 @@ video {
   height: 100vh;
 }
 
-.h-72{
-  height: 18rem;
-}
-
-.h-80{
-  height: 20rem;
-}
-
 .w-24{
   width: 6rem;
 }
@@ -1274,10 +1266,6 @@ video {
 
   .xl\:grid-cols-6{
     grid-template-columns: repeat(6, minmax(0, 1fr));
-  }
-
-  .xl\:items-center{
-    align-items: center;
   }
 
   .xl\:gap-3{
