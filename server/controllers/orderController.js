@@ -45,7 +45,7 @@ const getAllOrders = async (req, res) => {
             ...order.toObject(),
             menuDetails: {
                 ...order.menuDetails.toObject(),
-                name: truncateText(order.menuDetails.name, 19)
+                name: truncateText(order.menuDetails.name, 16)
             }
         }))
         res.render('order/orderList', { title: 'Order Detail', orders });
